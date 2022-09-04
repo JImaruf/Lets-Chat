@@ -31,6 +31,7 @@
                 android:layout_weight="1"
                 android:background="@color/transparent"
                 android:ems="10"
+
                 android:hint="Type a message.."
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"

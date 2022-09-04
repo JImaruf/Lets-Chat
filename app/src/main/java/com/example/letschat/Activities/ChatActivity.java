@@ -36,24 +36,26 @@ public class ChatActivity extends AppCompatActivity {
         binding =
                 ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getSupportActionBar().setTitle(name);
         database = FirebaseDatabase.getInstance();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        senderUid = FirebaseAuth.getInstance().getUid();
+        name = getIntent().getStringExtra("name");
+        recieveruid = getIntent().getStringExtra("uid");
+        senderRoom = senderUid+recieveruid;
+        receiverRoom =recieveruid+senderUid;
+
+
+
+
+
         messageArrayList = new ArrayList<>();
-        messagesAdapter = new MessagesAdapter(ChatActivity.this,messageArrayList);
+        messagesAdapter = new MessagesAdapter(ChatActivity.this,messageArrayList,senderRoom,receiverRoom);
         binding.messagecontainer.setLayoutManager(new LinearLayoutManager(this));
         binding.messagecontainer.setAdapter(messagesAdapter);
 
 
-        senderUid = FirebaseAuth.getInstance().getUid();
-
-        name = getIntent().getStringExtra("name");
-        recieveruid = getIntent().getStringExtra("uid");
-
-
-        senderRoom = senderUid+recieveruid;
-        receiverRoom =recieveruid+senderUid;
-        getSupportActionBar().setTitle(name);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         database.getReference().child("chats").child(senderRoom).child("messages")
                         .addValueEventListener(new ValueEventListener() {
@@ -63,6 +65,7 @@ public class ChatActivity extends AppCompatActivity {
                                 for(DataSnapshot dataSnapshot: snapshot.getChildren())
                                 {
                                     Message message = dataSnapshot.getValue(Message.class);
+                                    message.setMessageId(dataSnapshot.getKey());
                                     messageArrayList.add(message);
 
                                 }
@@ -79,18 +82,20 @@ public class ChatActivity extends AppCompatActivity {
         binding.sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Date date = new Date();
 
+                Date date = new Date();
                 String msgText = binding.msgBox.getText().toString();
                 Message message = new Message(msgText,senderUid,date.getTime());
                 binding.msgBox.setText("");
+
+                String randomKey=database.getReference().push().getKey();
                 database.getReference().child("chats").child(senderRoom).child("messages")
-                        .push()
+                        .child(randomKey)
                         .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 database.getReference().child("chats").child(receiverRoom).child("messages")
-                                        .push()
+                                        .child(randomKey)
                                         .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void unused) {

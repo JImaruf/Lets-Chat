@@ -3,7 +3,7 @@ package com.example.letschat.Models;
 public class Message {
     private String messageId,message,senderId;
     private long timeStamp;
-    private int feeling;
+    private int feeling=-1;
 
     public Message(String message, String senderId, long timeStamp) {
         this.message = message;

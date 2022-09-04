@@ -28,5 +28,5 @@
         app:layout_constraintEnd_toStartOf="@+id/message"
         app:layout_constraintStart_toStartOf="@+id/message"
         app:layout_constraintTop_toTopOf="@+id/message"
-        app:srcCompat="@drawable/ic_fb_laugh" />
+        app:srcCompat="@drawable/ic_fb_love" />
 </androidx.constraintlayout.widget.ConstraintLayout>
