@@ -4,17 +4,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.MainActivity">
+    android:background="#FFFFFF"
+    tools:context=".Activities.MainActivity"
+    >
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+        android:id="@+id/userRecyler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/userRecyler"
         app:layout_constraintBottom_toTopOf="@+id/navBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/row_conversation"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:layout_constraintVertical_bias="0.0"
+        app:shimmer_demo_child_count="29"
+        app:shimmer_demo_grid_child_count="2"
+        app:shimmer_demo_layout="@layout/demo_layout_user"
+        app:shimmer_demo_layout_manager_type="linear_vertical"
+        app:shimmer_demo_angle="20"
+        tools:listitem="@layout/row_conversation">
+
+    </com.cooltechworks.views.shimmer.ShimmerRecyclerView>
+
+    <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+        android:id="@+id/statusRecyler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:shimmer_demo_child_count="10"
+        app:shimmer_demo_grid_child_count="2"
+        app:shimmer_demo_layout="@layout/story_demo"
+        app:shimmer_demo_layout_manager_type="linear_horizontal"
+        app:shimmer_demo_angle="20">
+
+    </com.cooltechworks.views.shimmer.ShimmerRecyclerView>
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_margin="5dp"
+        android:background="#676666"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statusRecyler" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navBar"

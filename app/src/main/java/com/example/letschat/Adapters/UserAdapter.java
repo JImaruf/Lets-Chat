@@ -14,9 +14,15 @@ import com.example.letschat.Models.User;
 import com.example.letschat.R;
 import com.example.letschat.databinding.RowConversationBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyviewHolder>{
     Context context;
@@ -39,6 +45,39 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyviewHolder>{
     public void onBindViewHolder(@NonNull MyviewHolder holder, int position) {
 
         User user =userlist.get(position);
+
+        String senderuID =FirebaseAuth.getInstance().getUid();
+       String senderRoom = senderuID+user.getuId();
+        FirebaseDatabase.getInstance().getReference().child("chats")
+                        .child(senderRoom)
+                                .addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        if(snapshot.exists()) {
+
+                                            String LastMesaage = snapshot.child("lastmsg").getValue(String.class);
+                                            long time = snapshot.child("lastmsgTime").getValue(Long.class);
+                                            holder.binding.lastMessage.setText(LastMesaage);
+                                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm a");
+                                            String lastmsgTime = simpleDateFormat.format(new Date(time));
+                                            holder.binding.lastMessageTime.setText(lastmsgTime);
+
+
+                                        }
+                                        else
+                                        {
+                                            holder.binding.lastMessage.setText("Tap to chat");
+                                            holder.binding.lastMessageTime.setText("");
+                                        }
+
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
 
             holder.binding.userName.setText(user.getName());
             Picasso.get().load(user.getProfileImage()).placeholder(R.drawable.avatar).into(holder.binding.profileImage);

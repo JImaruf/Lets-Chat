@@ -36,9 +36,7 @@ public class OTPActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityOtpactivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        dialog = new ProgressDialog(this);
-        dialog.setCancelable(false);
-        dialog.setMessage("Sending OTP...");
+
         mAuth=FirebaseAuth.getInstance();
         phoneNumber = getIntent().getStringExtra("phone");
        binding.textView.setText("Verify "+phoneNumber);

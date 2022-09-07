@@ -73,7 +73,7 @@ public class MessagesAdapter extends RecyclerView.Adapter{
         Message message = messages.get(position);
         int[] reaction =
                 new int[]{
-                        R.drawable.ic_fb_like,
+                R.drawable.ic_fb_like,
                 R.drawable.ic_fb_love,
                 R.drawable.ic_fb_laugh,
                 R.drawable.ic_fb_wow,
