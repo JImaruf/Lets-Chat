@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".Activities.MainActivity"
-    >
+    android:background="#DFE1E0"
+    tools:context=".Activities.MainActivity">
 
     <com.cooltechworks.views.shimmer.ShimmerRecyclerView
         android:id="@+id/userRecyler"
@@ -17,11 +16,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2"
         app:layout_constraintVertical_bias="0.0"
+        app:shimmer_demo_angle="20"
         app:shimmer_demo_child_count="29"
         app:shimmer_demo_grid_child_count="2"
         app:shimmer_demo_layout="@layout/demo_layout_user"
         app:shimmer_demo_layout_manager_type="linear_vertical"
-        app:shimmer_demo_angle="20"
         tools:listitem="@layout/row_conversation">
 
     </com.cooltechworks.views.shimmer.ShimmerRecyclerView>
@@ -35,11 +34,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
+        app:shimmer_demo_angle="20"
         app:shimmer_demo_child_count="10"
         app:shimmer_demo_grid_child_count="2"
         app:shimmer_demo_layout="@layout/story_demo"
-        app:shimmer_demo_layout_manager_type="linear_horizontal"
-        app:shimmer_demo_angle="20">
+        app:shimmer_demo_layout_manager_type="linear_horizontal">
 
     </com.cooltechworks.views.shimmer.ShimmerRecyclerView>
 
@@ -57,10 +56,12 @@
         android:id="@+id/navBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#B8B8B8"
+        app:circularflow_radiusInDP="20dp"
         app:elevation="30dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottommenu" />
 

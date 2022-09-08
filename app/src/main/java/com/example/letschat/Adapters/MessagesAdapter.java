@@ -19,6 +19,7 @@ import com.github.pgreze.reactions.ReactionsConfig;
 import com.github.pgreze.reactions.ReactionsConfigBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -71,6 +72,8 @@ public class MessagesAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messages.get(position);
+
+
         int[] reaction =
                 new int[]{
                 R.drawable.ic_fb_like,
@@ -88,16 +91,25 @@ public class MessagesAdapter extends RecyclerView.Adapter{
 
             if(holder.getClass()==SendViewHolder.class)
             {
+                if(pos>0)
+               {
                 SendViewHolder viewHolder = (SendViewHolder) holder;
                 viewHolder.binding.feeling.setImageResource(reaction[pos]);
                 viewHolder.binding.feeling.setVisibility(View.VISIBLE);
-            }
-            else {
-                RecieveViewHolder viewHolder = (RecieveViewHolder) holder;
-                viewHolder.binding.feeling.setImageResource(reaction[pos]);
-                viewHolder.binding.feeling.setVisibility(View.VISIBLE);
+                }
 
             }
+            else {
+                if(pos>0)
+                {
+                    RecieveViewHolder viewHolder = (RecieveViewHolder) holder;
+                    viewHolder.binding.feeling.setImageResource(reaction[pos]);
+                    viewHolder.binding.feeling.setVisibility(View.VISIBLE);
+                }
+
+
+            }
+
 
               message.setFeeling(pos);
 
@@ -117,6 +129,14 @@ public class MessagesAdapter extends RecyclerView.Adapter{
 
         if(holder.getClass()==SendViewHolder.class){
             SendViewHolder viewHolder = (SendViewHolder) holder;
+
+            if(message.getMessage().equals("photo"))
+            {
+                viewHolder.binding.image.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Picasso.get().load(message.getImageUrl()).placeholder(R.drawable.placeholder).into(viewHolder.binding.image);
+            }
+
             viewHolder.binding.message.setText(message.getMessage());
             if(message.getFeeling()>=0){
                viewHolder.binding.feeling.setImageResource(reaction[message.getFeeling()]);
@@ -136,10 +156,24 @@ public class MessagesAdapter extends RecyclerView.Adapter{
                   return false;
               }
           });
+            viewHolder.binding.image.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    popup.onTouch(view,motionEvent);
+                    return false;
+                }
+            });
         }
         else
         {
             RecieveViewHolder viewHolder =(RecieveViewHolder) holder;
+
+            if(message.getMessage().equals("photo"))
+            {
+                viewHolder.binding.image.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Picasso.get().load(message.getImageUrl()).placeholder(R.drawable.placeholder).into(viewHolder.binding.image);
+            }
             viewHolder.binding.message.setText(message.getMessage());
             if(message.getFeeling()>=0){
                 viewHolder.binding.feeling.setImageResource(reaction[message.getFeeling()]);
@@ -157,6 +191,14 @@ public class MessagesAdapter extends RecyclerView.Adapter{
                     return false;
                 }
             });
+            viewHolder.binding.image.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    popup.onTouch(view,motionEvent);
+                    return false;
+                }
+            });
+
 
         }
 

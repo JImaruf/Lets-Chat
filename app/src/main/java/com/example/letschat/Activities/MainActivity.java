@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
+        binding.navBar.setVisibility(View.INVISIBLE);
+
 
 
         userStatuses = new ArrayList<>();
@@ -107,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case R.id.status:
                     {
+                        Toast.makeText(MainActivity.this, "Select an Image...", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent();
                         intent.setType("image/*");
                         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -136,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 binding.userRecyler.hideShimmerAdapter();
+                binding.navBar.setVisibility(View.VISIBLE);
                 userAdapter.notifyDataSetChanged();
             }
 
@@ -256,6 +261,41 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        firebaseDatabase.getReference().child("presence")
+                .child(auth.getUid())
+                .setValue("Online");
+    }
+
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        firebaseDatabase.getReference().child("presence")
+//                .child(auth.getUid())
+//                .setValue("Offline");
+//    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        firebaseDatabase.getReference().child("presence")
+               .child(auth.getUid())
+              .setValue("Offline");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "Distroyed!", Toast.LENGTH_SHORT).show();
+        firebaseDatabase.getReference().child("presence")
+                .child(auth.getUid())
+                .setValue("Offline");
     }
 
     @Override

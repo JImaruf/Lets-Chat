@@ -1,9 +1,16 @@
 package com.example.letschat.Models;
 
 public class Message {
-    private String messageId,message,senderId;
+    private String messageId;
+    private String message;
+    private String senderId;
+
+
+
+    private String imageUrl;
     private long timeStamp;
     private int feeling=-1;
+
 
     public Message(String message, String senderId, long timeStamp) {
         this.message = message;
@@ -52,5 +59,13 @@ public class Message {
 
     public void setFeeling(int feeling) {
         this.feeling = feeling;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
